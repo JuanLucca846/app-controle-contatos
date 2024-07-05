@@ -22,6 +22,7 @@ public class Contato {
     private String contato;
 
     @ManyToOne
+    @JoinColumn(name = "pessoa_id")
     @JsonIgnoreProperties("contatos")
     private Pessoa pessoa;
 
