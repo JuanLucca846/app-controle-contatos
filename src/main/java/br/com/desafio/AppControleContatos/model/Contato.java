@@ -1,8 +1,10 @@
 package br.com.desafio.AppControleContatos.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
@@ -14,7 +16,7 @@ public class Contato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotNull(message = "Atributo tipo é obrigatório")
     private int tipo;
 
     @NotBlank(message = "Atributo contato é obrigatório")
@@ -23,7 +25,7 @@ public class Contato {
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
-    @JsonIgnoreProperties("contatos")
+    @JsonBackReference
     private Pessoa pessoa;
 
     public Contato() {
@@ -44,12 +46,12 @@ public class Contato {
         this.id = id;
     }
 
-    @NotBlank
+    @NotNull
     public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(@NotBlank int tipo) {
+    public void setTipo(@NotNull int tipo) {
         this.tipo = tipo;
     }
 
