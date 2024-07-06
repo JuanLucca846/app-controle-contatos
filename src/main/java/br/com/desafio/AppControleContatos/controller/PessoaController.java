@@ -4,6 +4,7 @@ import br.com.desafio.AppControleContatos.dto.PessoaMalaDireitaDTO;
 import br.com.desafio.AppControleContatos.model.Pessoa;
 import br.com.desafio.AppControleContatos.service.PessoaServiceImpl;
 import br.com.desafio.AppControleContatos.service.interfaces.PessoaServiceInterface;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class PessoaController {
     @Autowired
     PessoaServiceImpl pessoaService;
 
+    @Operation(summary = "Cria uma nova pessoa.")
     @PostMapping
     public ResponseEntity<Pessoa> save(@Valid @RequestBody Pessoa pessoa) {
         Pessoa newPessoa = pessoaService.save(pessoa);
@@ -29,6 +31,7 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newPessoa);
     }
 
+    @Operation(summary = "Realiza a busca de uma pessoa pelo ID.")
     @GetMapping("/{id}")
     public ResponseEntity<
             Optional<Pessoa>> findById(@PathVariable Long id) {
@@ -39,6 +42,7 @@ public class PessoaController {
         return ResponseEntity.ok(pessoa);
     }
 
+    @Operation(summary = "Realiza a busca de uma pessoa pelo ID, trazendo as informações de endereço, cep, cidade e uf de maneira concatenada.")
     @GetMapping("/maladireita/{id}")
     public ResponseEntity<Optional<PessoaMalaDireitaDTO>> findByMaladireita(@PathVariable Long id) {
         Optional<PessoaMalaDireitaDTO> pessoaDTO = pessoaService.findByIdAndMalaDireita(id);
@@ -48,6 +52,7 @@ public class PessoaController {
         return ResponseEntity.ok(pessoaDTO);
     }
 
+    @Operation(summary = "Realiza a busca de todas as pessoas registradas.")
     @GetMapping
     public ResponseEntity<List<Pessoa>> findAll() {
         List<Pessoa> pessoas = pessoaService.findAll();
@@ -60,6 +65,7 @@ public class PessoaController {
         return ResponseEntity.ok(pessoas);
     }
 
+    @Operation(summary = "Atualiza uma pessoa.")
     @PutMapping
     public ResponseEntity<Pessoa> update(@Valid @RequestBody Pessoa pessoa) {
         Pessoa atualizarPessoa = pessoaService.update(pessoa);
@@ -69,6 +75,7 @@ public class PessoaController {
         return ResponseEntity.ok(atualizarPessoa);
     }
 
+    @Operation(summary = "Apaga o registro de uma pessoa pelo ID.")
     @DeleteMapping("/{id}")
     public ResponseEntity<Pessoa> delete(@PathVariable Long id) {
         pessoaService.delete(id);
