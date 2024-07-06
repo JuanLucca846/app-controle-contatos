@@ -3,7 +3,6 @@ package br.com.desafio.AppControleContatos.controller;
 import br.com.desafio.AppControleContatos.dto.PessoaMalaDireitaDTO;
 import br.com.desafio.AppControleContatos.model.Pessoa;
 import br.com.desafio.AppControleContatos.service.PessoaServiceImpl;
-import br.com.desafio.AppControleContatos.service.interfaces.PessoaServiceInterface;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

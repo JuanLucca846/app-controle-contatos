@@ -4,7 +4,6 @@ import br.com.desafio.AppControleContatos.model.Contato;
 import br.com.desafio.AppControleContatos.service.ContatoServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
