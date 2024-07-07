@@ -1,6 +1,7 @@
 package br.com.desafio.AppControleContatos.controller;
 
 import br.com.desafio.AppControleContatos.dto.PessoaMalaDireitaDTO;
+import br.com.desafio.AppControleContatos.exception.GlobalNotFoundException;
 import br.com.desafio.AppControleContatos.model.Pessoa;
 import br.com.desafio.AppControleContatos.service.PessoaServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +34,7 @@ public class PessoaController {
     @Operation(summary = "Realiza a busca de uma pessoa pelo ID.")
     @GetMapping("/{id}")
     public ResponseEntity<
-            Optional<Pessoa>> findById(@PathVariable Long id) {
+            Optional<Pessoa>> findById(@PathVariable Long id) throws GlobalNotFoundException {
         Optional<Pessoa> pessoa = pessoaService.findById(id);
         if (pessoa.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -43,7 +44,7 @@ public class PessoaController {
 
     @Operation(summary = "Realiza a busca de uma pessoa pelo ID, trazendo as informações de endereço, cep, cidade e uf de maneira concatenada.")
     @GetMapping("/maladireita/{id}")
-    public ResponseEntity<Optional<PessoaMalaDireitaDTO>> findByMaladireita(@PathVariable Long id) {
+    public ResponseEntity<Optional<PessoaMalaDireitaDTO>> findByMaladireita(@PathVariable Long id) throws GlobalNotFoundException {
         Optional<PessoaMalaDireitaDTO> pessoaDTO = pessoaService.findByIdAndMalaDireita(id);
         if (pessoaDTO.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -66,7 +67,7 @@ public class PessoaController {
 
     @Operation(summary = "Atualiza uma pessoa.")
     @PutMapping
-    public ResponseEntity<Pessoa> update(@Valid @RequestBody Pessoa pessoa) {
+    public ResponseEntity<Pessoa> update(@Valid @RequestBody Pessoa pessoa) throws GlobalNotFoundException {
         Pessoa atualizarPessoa = pessoaService.update(pessoa);
         if (atualizarPessoa == null) {
             return ResponseEntity.notFound().build();

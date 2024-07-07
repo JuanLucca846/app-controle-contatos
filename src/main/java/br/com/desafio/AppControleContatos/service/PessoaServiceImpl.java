@@ -1,6 +1,7 @@
 package br.com.desafio.AppControleContatos.service;
 
 import br.com.desafio.AppControleContatos.dto.PessoaMalaDireitaDTO;
+import br.com.desafio.AppControleContatos.exception.GlobalNotFoundException;
 import br.com.desafio.AppControleContatos.model.Pessoa;
 import br.com.desafio.AppControleContatos.repository.PessoaRepository;
 import br.com.desafio.AppControleContatos.service.interfaces.PessoaServiceInterface;
@@ -23,14 +24,20 @@ public class PessoaServiceImpl implements PessoaServiceInterface {
     }
 
     @Override
-    public Optional<Pessoa> findById(Long id) {
-        return pessoaRepository.findById(id);
+    public Optional<Pessoa> findById(Long id) throws GlobalNotFoundException {
+        Optional<Pessoa> pessoa = pessoaRepository.findById(id);
+        if (pessoa.isEmpty()) {
+            throw new GlobalNotFoundException("Pessoa com ID:" + id + " não encontrada");
+        }
+        return pessoa;
     }
 
     @Override
-    public Optional<PessoaMalaDireitaDTO> findByIdAndMalaDireita(Long id) {
+    public Optional<PessoaMalaDireitaDTO> findByIdAndMalaDireita(Long id) throws GlobalNotFoundException {
         Optional<Pessoa> pessoa = pessoaRepository.findByIdAndMalaDireita(id);
-
+        if (pessoa.isEmpty()) {
+            throw new GlobalNotFoundException("Pessoa maladireita com ID:" + id + " não encontrada");
+        }
         return pessoa.map(PessoaMalaDireitaDTO::fromPessoa);
     }
 
@@ -40,8 +47,12 @@ public class PessoaServiceImpl implements PessoaServiceInterface {
     }
 
     @Override
-    public Pessoa update(Pessoa pessoa) {
+    public Pessoa update(Pessoa pessoa) throws GlobalNotFoundException {
         Optional<Pessoa> findPessoa = pessoaRepository.findById(pessoa.getId());
+
+        if (findPessoa.isEmpty()) {
+            throw new GlobalNotFoundException("Pessoa não encontrada");
+        }
 
         if (findPessoa.isPresent()) {
             Pessoa atualizarPessoa = findPessoa.get();

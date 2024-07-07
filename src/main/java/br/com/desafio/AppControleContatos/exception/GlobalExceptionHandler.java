@@ -1,5 +1,6 @@
 package br.com.desafio.AppControleContatos.exception;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,5 +24,13 @@ public class GlobalExceptionHandler {
             erros.put(atributo, mensagem);
         });
         return erros;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(GlobalNotFoundException.class)
+    public Map<String, String> globalNotFoundException(GlobalNotFoundException exception) {
+        Map<String, String> erro = new HashMap<>();
+        erro.put("mensagem", exception.getMessage());
+        return erro;
     }
 }

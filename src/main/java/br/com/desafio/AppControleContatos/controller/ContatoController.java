@@ -1,5 +1,6 @@
 package br.com.desafio.AppControleContatos.controller;
 
+import br.com.desafio.AppControleContatos.exception.GlobalNotFoundException;
 import br.com.desafio.AppControleContatos.model.Contato;
 import br.com.desafio.AppControleContatos.service.ContatoServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +33,7 @@ public class ContatoController {
 
     @Operation(summary = "Realiza a busca de um contato pelo ID.")
     @GetMapping("/{id}")
-    public ResponseEntity<Contato> findById(@PathVariable Long id) {
+    public ResponseEntity<Contato> findById(@PathVariable Long id) throws GlobalNotFoundException {
         Optional<Contato> contato = contatoService.findById(id);
         if (contato.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -42,14 +43,14 @@ public class ContatoController {
 
     @Operation(summary = "Realiza a busca de todos os contatos de um usuário pelo ID do usuário.")
     @GetMapping("/pessoa/{id}")
-    public ResponseEntity<List<Contato>> findContatoByPessoaId(@PathVariable Long id) {
+    public ResponseEntity<List<Contato>> findContatoByPessoaId(@PathVariable Long id) throws GlobalNotFoundException {
         List<Contato> contatos = contatoService.findContatoByPessoaId(id);
         return ResponseEntity.ok(contatos);
     }
 
     @Operation(summary = "Atualiza um contato.")
     @PutMapping
-    public ResponseEntity<Contato> update(@Valid @RequestBody Contato contato) {
+    public ResponseEntity<Contato> update(@Valid @RequestBody Contato contato) throws GlobalNotFoundException {
         Contato atualizarContato = contatoService.update(contato);
         if (atualizarContato == null) {
             return ResponseEntity.notFound().build();

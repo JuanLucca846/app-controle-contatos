@@ -1,5 +1,6 @@
 package br.com.desafio.AppControleContatos.service;
 
+import br.com.desafio.AppControleContatos.exception.GlobalNotFoundException;
 import br.com.desafio.AppControleContatos.model.Contato;
 import br.com.desafio.AppControleContatos.repository.ContatoRepository;
 import br.com.desafio.AppControleContatos.repository.PessoaRepository;
@@ -25,17 +26,29 @@ public class ContatoServiceImpl implements ContatoServiceInterface {
 
     @Override
     public Optional<Contato> findById(Long id) {
-        return contatoRepository.findById(id);
+        Optional<Contato> contato = contatoRepository.findById(id);
+        if (contato.isEmpty()) {
+            throw new GlobalNotFoundException("Contato com ID:" + id + " não encontrado");
+        }
+        return contato;
     }
 
     @Override
     public List<Contato> findContatoByPessoaId(Long id) {
-        return contatoRepository.findContatoByPessoaId(id);
+        List<Contato> contato = contatoRepository.findContatoByPessoaId(id);
+        if (contato.isEmpty()) {
+            throw new GlobalNotFoundException("Contatos da pessoa com ID:" + id + " não encontrados");
+        }
+        return contato;
     }
 
     @Override
-    public Contato update(Contato contato) {
+    public Contato update(Contato contato) throws GlobalNotFoundException {
         Optional<Contato> findContato = contatoRepository.findById(contato.getId());
+
+        if (findContato.isEmpty()) {
+            throw new GlobalNotFoundException("Contato não encontrada");
+        }
 
         if (findContato.isPresent()) {
             Contato atualizarContato = findContato.get();
