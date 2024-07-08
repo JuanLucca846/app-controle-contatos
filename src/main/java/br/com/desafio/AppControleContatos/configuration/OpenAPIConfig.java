@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +16,9 @@ public class OpenAPIConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .components(
-                        new Components().addSecuritySchemes("basicScheme",
+                        new Components().addSecuritySchemes("bearerAuth",
                                 new SecurityScheme().type(SecurityScheme.Type.HTTP)
-                                        .scheme("basic")
+                                        .scheme("bearer").bearerFormat("JWT")
                         )
                 )
                 .info(
@@ -30,6 +31,7 @@ public class OpenAPIConfig {
                                         .url("http://localhost:8080/swagger-ui.html")
                                 )
                                 .version("Versão 1.0")
-                );
+                )
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
     }
 }
