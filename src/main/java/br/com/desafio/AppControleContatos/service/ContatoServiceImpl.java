@@ -1,7 +1,10 @@
 package br.com.desafio.AppControleContatos.service;
 
+import br.com.desafio.AppControleContatos.exception.GlobalEnumException;
 import br.com.desafio.AppControleContatos.exception.GlobalNotFoundException;
 import br.com.desafio.AppControleContatos.model.Contato;
+import br.com.desafio.AppControleContatos.model.Pessoa;
+import br.com.desafio.AppControleContatos.model.TipoContato;
 import br.com.desafio.AppControleContatos.repository.ContatoRepository;
 import br.com.desafio.AppControleContatos.repository.PessoaRepository;
 import br.com.desafio.AppControleContatos.service.interfaces.ContatoServiceInterface;
@@ -21,6 +24,25 @@ public class ContatoServiceImpl implements ContatoServiceInterface {
 
     @Override
     public Contato save(Contato contato) {
+        Long pessoaId = contato.getPessoa().getId();
+        if (pessoaId == null) {
+            throw new GlobalNotFoundException("O ID de uma pessoa não pode ser nulo");
+        }
+
+        Optional<Pessoa> findPessoa = pessoaRepository.findById(pessoaId);
+        if (findPessoa.isEmpty()) {
+            throw new GlobalNotFoundException("Pessoa com ID:" + pessoaId + " não encontrado");
+        }
+
+
+        if (contato.getTipo() < 0 || contato.getTipo() >= TipoContato.values().length) {
+            throw new GlobalEnumException("Tipo de contato invalido, envie 0 para telefone e 1 para celular");
+        }
+
+        TipoContato tipoContato = TipoContato.values()[contato.getTipo()];
+        contato.setTipo(tipoContato.ordinal());
+
+        contato.setPessoa(findPessoa.get());
         return contatoRepository.save(contato);
     }
 
@@ -44,10 +66,19 @@ public class ContatoServiceImpl implements ContatoServiceInterface {
 
     @Override
     public Contato update(Contato contato) throws GlobalNotFoundException {
+        Long pessoaId = contato.getPessoa().getId();
+        if (pessoaId == null) {
+            throw new GlobalNotFoundException("O ID de uma pessoa não pode ser nulo");
+        }
+
         Optional<Contato> findContato = contatoRepository.findById(contato.getId());
 
         if (findContato.isEmpty()) {
             throw new GlobalNotFoundException("Contato não encontrada");
+        }
+
+        if (contato.getTipo() < 0 || contato.getTipo() >= TipoContato.values().length) {
+            throw new GlobalEnumException("Tipo de contato invalido, envie 0 para telefone e 1 para celular");
         }
 
         if (findContato.isPresent()) {

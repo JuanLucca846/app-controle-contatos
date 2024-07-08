@@ -1,7 +1,6 @@
 package br.com.desafio.AppControleContatos.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -46,12 +45,12 @@ public class Contato {
         this.id = id;
     }
 
-    @NotNull
+    @NotNull(message = "Atributo tipo é obrigatório")
     public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(@NotNull int tipo) {
+    public void setTipo(@NotNull(message = "Atributo tipo é obrigatório") int tipo) {
         this.tipo = tipo;
     }
 
