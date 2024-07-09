@@ -19,25 +19,32 @@ git clone https://github.com/JuanLucca846/app-controle-contatos.git
 3. A documentação com Swagger estara disponivel em: http://localhost:8080/swagger-ui/index.html
 
 ## Exemplo do ApplicationProperties
-spring.application.name=AppControleContatos
+- spring.application.name=AppControleContatos
 
-spring.jpa.database=mysql
-spring.datasource.url=
-spring.datasource.username=
-spring.datasource.password=
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.jpa.database-platform:org.hibernate.dialect.MySQLDialect
-spring.jpa.show-sql=true
-spring.jpa.hibernate.ddl-auto=update
+- spring.jpa.database=mysql
+- spring.datasource.url=
+- spring.datasource.username=
+- spring.datasource.password=
+- spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+- spring.jpa.database-platform:org.hibernate.dialect.MySQLDialect
+- spring.jpa.show-sql=true
+- spring.jpa.hibernate.ddl-auto=update
 
-spring.springdoc.version:1.0.0
-spring.springdoc.api-docs.path:/api-docs
-spring.springdoc.swagger-ui.path:/swagger-ui.html
-spring.springdoc.swagger-ui.config-url:/api-docs/swagger-config
-spring.springdoc.swagger-ui.enabled:true
+- spring.springdoc.version:1.0.0
+- spring.springdoc.api-docs.path:/api-docs
+- spring.springdoc.swagger-ui.path:/swagger-ui.html
+- spring.springdoc.swagger-ui.config-url:/api-docs/swagger-config
+- spring.springdoc.swagger-ui.enabled:true
 
 1. Banco utilizado MySQL.
 2. Adicione a url, username e password do seu banco de dados.
+
+## Exemplo do ApplicationTestProperties
+- spring.datasource.url=jdbc:h2:mem:testdb
+- spring.datasource.driver-class-name=org.h2.Driver
+- spring.datasource.username=sa
+- spring.datasource.password=
+- spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 
 ## Tecnologias
 
