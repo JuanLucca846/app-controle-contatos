@@ -15,10 +15,20 @@ git clone https://github.com/JuanLucca846/app-controle-contatos.git
 ## Uso
 
 1. Inicie a aplicação.
-2. A API estara disponivel em: http://localhost:8080
-3. A documentação com Swagger estara disponivel em: http://localhost:8080/swagger-ui/index.html
+2. A API estará disponível em: http://localhost:8080
+3. A documentação com Swagger estará disponível em: http://localhost:8080/swagger-ui/index.html
+4. Deploy no Render estára disponível em: https://app-controle-contatos.onrender.com/swagger-ui/index.html
 
 ## Exemplo do ApplicationProperties
+- spring.profiles.active=dev
+
+- spring.springdoc.version:1.0.0
+- spring.springdoc.api-docs.path:/api-docs
+- spring.springdoc.swagger-ui.path:/swagger-ui.html
+- spring.springdoc.swagger-ui.config-url:/api-docs/swagger-config
+- spring.springdoc.swagger-ui.enabled:true
+
+## Exemplo do ApplicationDevProperties
 - spring.application.name=AppControleContatos
 
 - spring.jpa.database=mysql
@@ -30,14 +40,24 @@ git clone https://github.com/JuanLucca846/app-controle-contatos.git
 - spring.jpa.show-sql=true
 - spring.jpa.hibernate.ddl-auto=update
 
-- spring.springdoc.version:1.0.0
-- spring.springdoc.api-docs.path:/api-docs
-- spring.springdoc.swagger-ui.path:/swagger-ui.html
-- spring.springdoc.swagger-ui.config-url:/api-docs/swagger-config
-- spring.springdoc.swagger-ui.enabled:true
-
 1. Banco utilizado MySQL.
 2. Adicione a url, username e password do seu banco de dados.
+
+## Exemplo do ApplicationProdProperties
+- spring.application.name=AppControleContatos
+
+- spring.jpa.generate-ddl=true
+- spring.jpa.database=postgresql
+- spring.datasource.url=jdbc:postgresql://${POSTGRESHOST}:${POSTGRESPORT}/${POSTGRESDATABASE}
+- spring.datasource.username=${POSTGRESUSER}
+- spring.datasource.password=${POSTGRESPASSWORD}
+
+- spring.jpa.show-sql=true
+- spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+
+- spring.jpa.properties.jakarta.persistence.sharedCache.mode=ENABLE_SELECTIVE
+
+1. Banco utilizado no Deploy PostgreSQL.
 
 ## Exemplo do ApplicationTestProperties
 - spring.datasource.url=jdbc:h2:mem:testdb
